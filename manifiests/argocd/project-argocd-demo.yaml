@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: argocd-demo
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Demo Project
+
+  sourceRepos:
+    - '*'
+
+  destinations:
+    - namespace: '*'
+      server: https://aks-demo-dns-6axpkayv.hcp.germanywestcentral.azmk8s.io:443 
+      name: aks-demo-cluster
+
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'

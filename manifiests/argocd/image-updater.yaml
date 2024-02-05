@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: image-updater
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    name: image-updater
+spec:
+  project: argocd-demo
+
+  source:
+    repoURL: https://github.com/IgnaLog/react-demo-gitops.git
+    targetRevision: main
+    path: charts/argocd-image-updater
+    helm:
+      valueFiles:
+        - values-custom.yaml
+
+  destination:
+    server: https://aks-demo-dns-6axpkayv.hcp.germanywestcentral.azmk8s.io:443
+    namespace: argocd
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - Validate=false
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+
+  ignoreDifferences:
+    - group: "*"
+      kind: "*"

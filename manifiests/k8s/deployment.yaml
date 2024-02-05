@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-demo-deployment
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: react-demo-app
+  template:
+    metadata:
+      labels:
+        app: react-demo-app
+    spec:
+      containers:
+        - name: react-demo-app
+          image: ignalog/react-demo-ci:0.1.0-1
+          ports:
+            - containerPort: 3000

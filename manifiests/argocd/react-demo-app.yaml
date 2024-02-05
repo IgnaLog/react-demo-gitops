@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: react-demo-app
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  # annotations:
+    # argocd-image-updater.argoproj.io/image-list: image=docker.io/ignalog/react-demo-ci
+    # argocd-image-updater.argoproj.io/image.update-strategy: latest
+    # argocd-image-updater.argoproj.io/image.allow-tags: regexp:^0.1.0-[0-9]+$
+  # Considere usar la siguiente estrategia si obtiene limites de uso en dockerhub:
+    # argocd-image-updater.argoproj.io/image-list: image=docker.io/ignalog/react-demo-ci:latest
+    # argocd-image-updater.argoproj.io/image.update-strategy: digest
+  # O considere cambiar su estrategia CI cambiando el numero de version sin compilacion y use patrones semVer:
+    # argocd-image-updater.argoproj.io/image-list: docker.io/ignalog/react-demo-ci:~1.19
+  # Más información en https://argocd-image-updater.readthedocs.io/en/stable/configuration/images/
+
+spec:
+  project: argocd-demo
+  source:
+    repoURL: https://github.com/IgnaLog/react-demo-gitops.git
+    targetRevision: main
+    path: manifiests/k8s
+  destination:
+    server: https://aks-demo-dns-6axpkayv.hcp.germanywestcentral.azmk8s.io:443
+    namespace: argocd-demo
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+      allowEmpty: false
