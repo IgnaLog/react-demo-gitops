@@ -24,13 +24,11 @@ Esta guía te llevará paso a paso a través de la implementación de un robusto
    - [Instalando Azure-cli (az)](#instalando-azure-cli-az)
    - [Iniciando Sesión en tu Cuenta de Azure](#iniciando-sesión-en-tu-cuenta-de-azure)
 10. [Creando ArgoCD](#creando-argocd)
-    - [Requisitos](#requisitos)
     - [Instalación Manual](#instalación-manual)
     - [Instalación con Helm](#instalación-con-helm)
       - [Usando Repositorio Remoto](#usando-repositorio-remoto)
       - [Usando un Chart Local](#usando-un-chart-local)
     - [Asignando Cluster AKS a ArgoCD](#asignando-cluster-aks-a-argocd)
-    - [Requisitos](#requisitos)
 11. [Creando Proyecto Gitops](#creando-proyecto-gitops)
     - [Conectando con el Repositorio Gitops de GitHub](#conectando-con-el-repositorio-gitops-de-github)
     - [Creando Aplicación de Monitoreo en Argocd](#creando-aplicación-de-monitoreo-en-argocd)
@@ -353,8 +351,8 @@ exit
   ```
 
 - Accedemos a SonarQube:
-  - Accedemos con el navegador a: `<Public IP VM Sonar-Scanner>:9000`
-  - User -> admin, Password -> admin
+  - Accedemos con el navegador a: `<Public IP VM Sonar-Scanner>:9000`.
+  - User -> admin, Password -> admin.
 
 ## Generación de Claves SSH
 
@@ -425,17 +423,17 @@ Crear un nuevo nodo con jenkins-agent:
 - Directorio: averiguarlo con `pwd` en la vm agente -> `/home/azureuser`.
 - Que se ejecute siempre que sea posible.
 - Conectarlo con ssh a la vm jenkins-agent con su public ip y añadiendo la clave privada que generamos en la vm maestra.
-- Host Key Verification Strategy -> Non Verifying Verification Strategy
-- Probar que se ejecuta en el nodo agente haciendo un test pipeline
+- Host Key Verification Strategy -> Non Verifying Verification Strategy.
+- Probar que se ejecuta en el nodo agente haciendo un test pipeline.
 
 ### Instalando Plugins
 
 Buscamos los siguientes plugins:
 
-- sonarqube -> SonarQube Scanner
-- gates -> Sonnar Quality Gates + Quality Gates
-- nodejs -> NodeJS
-- docker -> Docker + Docker Commons + Docker Pipeline + Docker API + docker-build-step + CloudBees Docker Build and Publish
+- sonarqube -> SonarQube Scanner.
+- gates -> Sonnar Quality Gates + Quality Gates.
+- nodejs -> NodeJS.
+- docker -> Docker + Docker Commons + Docker Pipeline + Docker API + docker-build-step + CloudBees Docker Build and Publish.
 
 ### Configurando Plugins
 
@@ -443,18 +441,18 @@ Dentro del apartado Tools de Jenkins:
 
 - Instalaciones de NodeJS:
 
-  - Nombre -> node20
-  - Seleccionamos la última versión de nodejs LTS que haya en la web o la que tengamos usando en nuestro proyecto
+  - Nombre -> node20.
+  - Seleccionamos la última versión de nodejs LTS que haya en la web o la que tengamos usando en nuestro proyecto.
 
 - Instalaciones de Docker:
 
-  - Nombre -> docker
-  - Instalar automáticamente -> añadir un instalador -> download from docker -> latest
+  - Nombre -> docker.
+  - Instalar automáticamente -> añadir un instalador -> download from docker -> latest.
 
 - Instalaciones de SonarQube Scanner:
-  - Nombre -> sonar-scanner
-  - Instalar automáticamente -> Install from Maven Central -> SonarQube Scanner 5.0.1.3006
-  - Para quitar los warnings de sonarqube en jenkins entramos en: Manage Jenkins -> Security -> Hidden security warnings -> desactivamos Security warnings
+  - Nombre -> sonar-scanner.
+  - Instalar automáticamente -> Install from Maven Central -> SonarQube Scanner 5.0.1.3006.
+  - Para quitar los warnings de sonarqube en jenkins entramos en: Manage Jenkins -> Security -> Hidden security warnings -> desactivamos Security warnings.
 
 ### Conectando Jenkins con SonarQube
 
@@ -498,11 +496,11 @@ Dentro del apartado Tools de Jenkins:
 
 - Añadiendo un proyecto a sonarqube:
 
-  - En sonarqube: Manually
+  - En sonarqube: Manually.
     ```
     Project display name: React-Demo-Ci
     ```
-    Setup -> Locally -> 30 days -> Generate -> Continue -> Other -> Linux
+    Setup -> Locally -> 30 days -> Generate -> Continue -> Other -> Linux.
 
 ### Conectando Jenkins con mi Cuenta de GitHub
 
@@ -737,7 +735,7 @@ Deberíamos tener el servicio argocd-server como LoadBalancer con su external-ip
 | ------------- | ------------ | ------------ | ----------- | -------------------------- | ----- |
 | argocd-server | LoadBalancer | 10.0.250.234 | 51.103.5.91 | 80:31340/TCP,443:30142/TCP | 8m59s |
 
-Una vez accedido desde el navegador a argocd con la ip 51.103.5.91 ponemos como usuario admin y contraseña la sacamos escribiendo en consola:
+Una vez accedido desde el navegador a argocd con la ip `51.103.5.91` ponemos como usuario admin y contraseña la sacamos escribiendo en consola:
 
 ```
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
@@ -784,7 +782,7 @@ helm install argo-cd argo-cd/ \
   --set configs.credentialTemplates.github.url=https://github.com/IgnaLog
 ```
 
-Si queremos una instalación a un repositorio de GitHub privado tenemos que crear un token de acceso en la cuenta de GitHub y guardarlo en `~/.secrets/github/ignalog/token`. Además crear un fichero con el nombre de usuario del repositorio y guardarlo en `~/.secrets/github/ignalog/user`. Después ejecutamos:
+Si queremos una instalación a un repositorio de GitHub privado tenemos que crear un token de acceso en la cuenta de GitHub y guardarlo en: `~/.secrets/github/ignalog/token`. Además crear un fichero con el nombre de usuario del repositorio y guardarlo en: `~/.secrets/github/ignalog/user`. Después ejecutamos:
 
 ```
 helm install argo-cd argo-cd/ \
@@ -795,7 +793,7 @@ helm install argo-cd argo-cd/ \
   --set configs.credentialTemplates.github.password=$(cat ~/.secrets/github/ignalog/token)
 ```
 
-Levantamos un Port-Forward para poder acceder a ArgoCD UI desde localhost:9090
+Levantamos un Port-Forward para poder acceder a ArgoCD UI desde localhost:9090.
 
 ```
 kubectl port-forward service/argo-cd-argocd-server -n argocd 9090:443
@@ -831,13 +829,13 @@ Deberíamos tener el servicio argocd-server como LoadBalancer con su external-ip
 | --------------------- | ------------ | ------------ | ----------- | -------------------------- | ----- |
 | argo-cd-argocd-server | LoadBalancer | 10.0.250.234 | 51.103.5.91 | 80:31340/TCP,443:30142/TCP | 8m59s |
 
-Una vez accedido desde el navegador a argocd con la ip externa 51.103.5.91 o través de localhost:9090 con el port-forward iniciamos sesión en argocd por primera vez. Ponemos como usuario: `admin` y contraseña: la sacamos escribiendo en la terminal:
+Una vez accedido desde el navegador a argocd con la ip externa `51.103.5.91` o través de `localhost:9090` con el port-forward iniciamos sesión en argocd por primera vez. Ponemos como usuario admin y contraseña la obtenemos escribiendo en la terminal:
 
 ```
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 ```
 
-Esta será la contaseña que usaremos para acceder por primera vez a argocd. Después desde la interfaz podemos cambiarla en el apartado: User Info -> UPDATE PASSWORD
+Esta será la contaseña que usaremos para acceder por primera vez a argocd. Después desde la interfaz podemos cambiarla en el apartado: User Info -> UPDATE PASSWORD.
 
 Ahora hacemos login con argocd-cli para poder usar el comando argocd:
 
@@ -855,9 +853,9 @@ argocd account update-password
 
 #### Usando un Chart Local
 
-Necesitamos tener descargado en local todo el proyecto de react-demo-gitops donde se encuentra el repositorio de argo-cd.
+Necesitamos tener descargado en local todo el proyecto de "react-demo-gitops" donde se encuentra el repositorio de argo-cd.
 
-Tenemos que modificar el values-custom.yaml de cahrts/argo-cd para que se adape a nuestro repositorio gitops:
+Tenemos que modificar el _values-custom.yaml_ de _charts/argo-cd_ para que se adape a nuestro repositorio gitops:
 
 ```
   credentialTemplates:
@@ -903,14 +901,18 @@ helm install argo-cd ../charts/argo-cd/ \
 kubectl get svc -n argocd
 ```
 
-La contraseña la tengo establecida como `ARGOCDPASS` en mi values-custom.yaml
+La contraseña la tengo establecida como `ARGOCDPASS` en mi _values-custom.yaml._
 
 Ahora hacemos login con argocd-cli para poder usar el comando argocd:
 
 ```
-$argocd login <external ip> --username admin
-o
-$argocd login localhost:9090
+argocd login <external ip> --username admin
+```
+
+O si levantamos un port-forward, utilizar:
+
+```
+argocd login localhost:9090
 ```
 
 ### Asignando Cluster AKS a ArgoCD
@@ -959,7 +961,7 @@ Ejecutamos `arcocd clustter list` para ver de nuevo que se ha creado el cluster 
 
 _Sólo si NO hemos añadido el repo de gitops que vamos a usar en la instalación._
 
-Dentro de la interfaz de ArgoCD: Settings -> + Connect Repo
+Dentro de la interfaz de ArgoCD: Settings -> + Connect Repo.
 
 - Si es un proyecto privado: via SSH y si no usamos via HTTPS.
 - Project: Default.
@@ -971,7 +973,7 @@ _Tambien se puede hacer desde comandos de argocd-cli._
 
 ### Creando Aplicación de Monitoreo en Argocd
 
-En Applications -> New App
+En Applications -> New App.
 
 - Application Name: react-demo-ci.
 - Project Name: default.
@@ -985,11 +987,13 @@ En Applications -> New App
 - En Destionation:
   - Cluster URL: Elegimos la URL del cluster AKS.
   - Namespace: default.
-- Create
+- Create.
 
-_Tambien se puede hacer desde comandos de argocd-cli o desde un manifiest .yaml del tipo application._
+_Tambien se puede hacer desde comandos de argocd-cli o desde un manifiest ".yaml" del tipo application._
 
-### Creando Aplicación y Proyecto en ArgoCD desde Manifiestos \*_Recomendado_\*
+### Creando Aplicación y Proyecto en ArgoCD desde Manifiestos
+
+_Recomendado usar este método para ahorrar tiempo._
 
 - En manifiests/argocd/project-argocd-demo.yaml es un manifiesto para configurar un proyecto en argocd. Cambiar los siguientes parámetros:
 
@@ -1012,13 +1016,13 @@ _Tambien se puede hacer desde comandos de argocd-cli o desde un manifiest .yaml 
 
 Creamos un job pipeline llamado React-Demo-CD.
 
-- Marcamos discard old builds -> max of builds to keep: 2
-- Marcamos This project is parameterized -> Add parameter -> String parameter
-  - Name: IMAGE_TAG
+- Marcamos discard old builds -> max of builds to keep: 2.
+- Marcamos This project is parameterized -> Add parameter -> String parameter.
+  - Name: IMAGE_TAG.
 - Build Triggers:
-  - Marcamos Trigger builds remotely
-    - En Authentication Token: gitops-token
-- En Pipeline -> Pipeline script from SCM -> SCM -> Git -> Colocamos la URL del repo gitops de github y el token de GitHub -> rama main
+  - Marcamos Trigger builds remotely.
+    - En Authentication Token: gitops-token.
+- En Pipeline -> Pipeline script from SCM -> SCM -> Git -> Colocamos la URL del repo gitops de github y el token de GitHub -> rama main.
 
 ### Creando Jenkinsfile para CD
 
@@ -1079,12 +1083,12 @@ Cambia la url `https://github.com/IgnaLog/react-demo-gitops/tree/main/manifiests
 - Nos dirigimos a Manage Jenkins ->
 - Credentials ->
 - New Credential ->
-- Seleccionamos un credencial del tipo secret text ->
+- Seleccionamos un credencial del tipo "secret text" ->
 - Pegamos el token JENKINS_API_TOKEN ->
 - Lo nombramos como JENKINS_API_TOKEN ->
-- Create
+- Create.
 
-Ahora hay que modificar el Jenkinsfile de react-demo-ci pipeline para que pueda conectarse con el Jenkinsfile del CD:
+Ahora hay que modificar el Jenkinsfile de _react-demo-ci_ pipeline para que pueda conectarse con el Jenkinsfile del CD _react-demo-gitops_:
 
 En environment de CI introducimos:
 
@@ -1108,7 +1112,7 @@ stage("Trigger CD Pipeline") {
 
 `admin:${JENKINS_API_TOKEN}` -> Sustituir por el usuario de Jenkins y por el nombre del token que hemos creado en Jenkins para acceder desde otro job.
 
-`20.199.113.26:8080/job/React-Demo-CD/` -> Sustituir por la url al entrar en el job de React-Demo-CD de Jenkins. Después añadirle el token creado como parámetro `buildWithParameters?token=gitops-token`
+`20.199.113.26:8080/job/React-Demo-CD/` -> Sustituir por la url al entrar en el job de _React-Demo-CD_ de Jenkins. Después añadirle el token creado como parámetro: `buildWithParameters?token=gitops-token`
 
 ## Conectando Webhook de GitHub
 
@@ -1118,10 +1122,10 @@ Ir al CI job:
 
 - Configurar ->
   - Build Triggers ->
-    - GitHub hook trigger from GITScm polling
+    - GitHub hook trigger from GITScm polling.
   - GitHub project ->
-    - Project url: Url del proyecto CI
-- Save
+    - Project url: Url del proyecto CI.
+- Save.
 
 - Ir a setting del proyecto CI (react-demo-ci) de github ->
 - Webhooks ->
@@ -1162,7 +1166,7 @@ def updateGitHubCommitStatus(String status) {
 }
 ```
 
-_Sustituye la variable gitHubCredentialsId por tu token de GitHub_
+_Sustituye la variable gitHubCredentialsId por tu token de GitHub._
 
 ## Conectando con Gmail
 
@@ -1170,43 +1174,43 @@ Esto te permitirá enviarte un gmail cuando tu proyecto de CI se haya construido
 
 _Sólo podemos hacer esto si tenemos la verificación en dos pasos en nuestra cuenta de Google._
 
-- Nos dirijimos a gestionar tu cuenta de google ->
+- Nos dirijimos a gestionar tu cuenta de Google ->
 - Security ->
 - Verificación en dos pasos ->
-- Vamos al final de la página en Constraseñas de aplicación
-- Name: React-demo ->
-- Create ->
-- Copy the password ->
-- Ir a jenkins credentials ->
-- Añadir una usernamepassword credencial ->
-- username: nuestro email
-- password: password de gmail
-- ID: Gmail-Token
+- Vamos al final de la página en Constraseñas de aplicación ->
+  - Name: `React-demo` ->
+  - Create ->
+  - Copy the password ->
+- Ir a Jenkins Credentials ->
+- Añadir una username-password credencial ->
+  - Username: Nuestro email.
+  - Password: Password de gmail.
+  - ID: Gmail-Token.
 
 Ir a Manage Jenkins -> System -> Email Notification ->
 
-- smtp server: smtp.gmail.com
-- default user email suffix: ignacio.coding@gmail.com
-- advanced:
-  - use smtp authentication
-    - username: ignacio.coding@gmail.com
-    - password: password de gmail que hemos creado
-  - use ssl
-  - smtp port: 465
-- Hacemos un test para ver si funciona
+- smtp server: `smtp.gmail.com`.
+- Default user email suffix: `ignacio.coding@gmail.com`.
+- Advanced:
+  - Use smtp authentication.
+    - username: `ignacio.coding@gmail.com`.
+    - password: "password de gmail que hemos creado".
+  - Marcamos use SSL.
+  - smtp port: `465`.
+- Hacemos un test para ver si funciona.
 
 Ir a Extended Email Notification:
 
-- smtp server: smtp.gmail.com
-- port: 465
-- advanced:
-  - Añadimos la credencial de Gmail-Token
-  - Marcamos use SSL
-- Default user email suffix: ignacio.coding@gmail.com
-- Default content type: HTML (text/html)
-- Default triggers (activadores predeterminados): Always, Success, Failure (Any)
+- smtp server: `smtp.gmail.com`.
+- port: `465`.
+- Advanced:
+  - Añadimos la credencial de Gmail-Token.
+  - Marcamos use SSL.
+- Default user email suffix: `ignacio.coding@gmail.com`.
+- Default content type: HTML (text/html).
+- Default triggers (activadores predeterminados): Always, Success, Failure (Any).
 
-Apply Save
+Apply Save.
 
 Ahora vamos añadir esto al final de nuestro Jenkinsfile:
 
@@ -1262,9 +1266,9 @@ En la siguiente ilustración, podemos observar la simplificación de nuestra arq
 
 Pasos a seguir para configurar el repositorio gitops de GitHub y aprovechar las funcionalidades de Image Updater:
 
-- En el repo de charts/argocd-image-updater hay un values-custom.yaml para personalizar. Aquí es necesario cambiar la etiqueta `config.registires` para seleccionar desde que repositorio en la nube vamos a buscar la nueva imagen. Puede ser desde DockerHub, GiHub Container, etc.
+- En el repo de _charts/argocd-image-updater_ hay un _values-custom.yaml_ para personalizar. Aquí es necesario cambiar la etiqueta _config.registires_ para seleccionar desde que repositorio en la nube vamos a buscar la nueva imagen. Puede ser desde DockerHub, GiHub Container, etc.
 
-- En manifiests/argocd/image-updater.yaml es un manifiesto de configuración de la aplicación image-updater para nuestro argocd. Aquí hay que adaptar las siguientes etiquetas:
+- En _manifiests/argocd/image-updater.yaml_ es un manifiesto de configuración de la aplicación image-updater para nuestro argocd. Aquí hay que adaptar las siguientes etiquetas:
 
   - `spec.project: argocd-demo` -> Cambiar al nombre de proyecto que tenemos configurado.
   - `spec.source.repoURL: https://github.com/IgnaLog/react-demo-gitops.git` Cambiar a nuestro repositorio gitops.
@@ -1274,12 +1278,12 @@ Pasos a seguir para configurar el repositorio gitops de GitHub y aprovechar las 
   - `spec.source.destination.destination.server: https://aks-demo-dns-t5gq24d4.hcp.germanywestcentral.azmk8s.io:443` -> Cambiar a la dirección de nuestro servidor del cluster de kubernetes.
   - `spec.source.destination.destination.namespace: argocd` -> En que namespace se va ejecutar.
 
-- En manifiests/argocd/project-argocd-demo.yaml es un manifiesto para configurar un proyecto en argocd. Cambiar los siguientes parámetros:
+- En _manifiests/argocd/project-argocd-demo.yaml_ es un manifiesto para configurar un proyecto en argocd. Cambiar los siguientes parámetros:
 
   - `spec.destination.server: https://aks-demo-dns-t5gq24d4.hcp.germanywestcentral.azmk8s.io:443` -> Cambiar por la dirección del cluster de kubernetes
   - `spec.destination.name: aks-demo-cluster` -> Poner el nombre que queremos que tenga ese cluster en argocd
 
-- En manifiests/argocd/react-demo-app.yaml es un manifiesto para crear una aplicación en argocd:
+- En _manifiests/argocd/react-demo-app.yaml_ es un manifiesto para crear una aplicación en argocd:
 
   - `metadata.namespace:argocd` -> En que namespace se va ejecutar
   - `metadata.annotations:`
@@ -1323,11 +1327,11 @@ argocd-image-updater.argoproj.io/image-list: docker.io/ignalog/react-demo-ci:~0.
 - `spec.source.destination.destination.server: https://aks-demo-dns-t5gq24d4.hcp.germanywestcentral.azmk8s.io:443` -> Cambiar a la dirección de nuestro servidor del cluster de kubernetes.
 - `spec.source.destination.destination.namespace: argocd` -> En que namespace se va ejecutar.
 
-- En k8s-iu/deployment.yaml:
+- En _k8s-iu/deployment.yaml_:
 
   - `revisionHistoryLimit: 1` -> Determina el número de replicasets que se quedarán activos sin pods una vez que haya una nueva versión. En este caso solo habrá un replicaset sin pod al cargar nuevas versiones.
   - `image: docker.io/ignalog/react-demo-ci` -> No hay que especificar la versión en el nombre de la imagen.
 
-- En k8s-iu/secret.yaml:
+- En _k8s-iu/secret.yaml_:
   - `metadata.name` -> Poner el nombre del token creado en dockerhub.
   - `data.creds` -> Crearlo con `echo -n "username:password" | base64` donde username es el nombre de usuario de dockerhub y password es el token creado.
