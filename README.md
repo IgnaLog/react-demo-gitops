@@ -46,7 +46,7 @@ La siguiente imagen representa la arquitectura del sistema que implementaremos e
 
 ¡Explora la imagen para comprender mejor la interacción entre estos componentes y sigue los pasos del tutorial para implementar este sistema de CI/CD en tu entorno Azure!
 
-![](https://i.ibb.co/LYk8jcq/jenkins-schema-draw.png)
+![Arquitecura React Demo GitOps](./react-demo-gitops.svg)
 
 Este tutorial te llevará paso a paso desde la configuración inicial hasta la implementación de un flujo de CI/CD robusto utilizando las tecnologías mencionadas. ¡Comencemos!
 
